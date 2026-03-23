@@ -1,0 +1,25 @@
+{
+  "name": "midnight-vault",
+  "version": "1.0.0",
+  "description": "Secure one-time secret sharing by The Midnight Digital",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "cleanup": "node cleanup.js"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.19.11",
+    "@libsql/client": "^0.14.0",
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^16.4.5",
+    "ejs": "^5.0.1",
+    "hono": "^4.12.8",
+    "nodemon": "^3.1.14",
+    "uuid": "^9.0.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

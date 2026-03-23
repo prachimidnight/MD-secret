@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Secret Link Created — SecureShare</title>
+  <link rel="apple-touch-icon" sizes="57x57"   href="https://themidnight.in/beta/media/favicon/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60"   href="https://themidnight.in/beta/media/favicon/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72"   href="https://themidnight.in/beta/media/favicon/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76"   href="https://themidnight.in/beta/media/favicon/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="https://themidnight.in/beta/media/favicon/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="https://themidnight.in/beta/media/favicon/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="https://themidnight.in/beta/media/favicon/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="https://themidnight.in/beta/media/favicon/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://themidnight.in/beta/media/favicon/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="https://themidnight.in/beta/media/favicon/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32"   href="https://themidnight.in/beta/media/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96"   href="https://themidnight.in/beta/media/favicon/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16"   href="https://themidnight.in/beta/media/favicon/favicon-16x16.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: {
+            midnight: {
+              50:  '#f0f0f5',
+              100: '#e0e0eb',
+              500: '#3b3b6e',
+              700: '#1a1a2e',
+              900: '#0d0d1a',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    #qrcode canvas, #qrcode img {
+      margin: 0 auto;
+      border-radius: 0.5rem;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-50 flex flex-col items-center justify-center px-4 py-12">
+
+  <!-- Header -->
+  <div class="mb-8 text-center">
+    <div class="flex items-center justify-center gap-3 mb-1">
+      <svg class="w-10 h-10" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20 3L5 9v10c0 9.4 6.4 18.2 15 20 8.6-1.8 15-10.6 15-20V9L20 3z" fill="#1a1a2e"/>
+        <path d="M20 3L5 9v10c0 9.4 6.4 18.2 15 20 8.6-1.8 15-10.6 15-20V9L20 3z" fill="url(#sg2)" opacity="0.85"/>
+        <path d="M25 17.5V16a5 5 0 00-10 0v1.5A2.5 2.5 0 0013 20v5a2.5 2.5 0 002.5 2.5h9A2.5 2.5 0 0027 25v-5a2.5 2.5 0 00-2-2.5zm-7-1.5a2 2 0 014 0v1.5h-4V16zm2 8.5a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" fill="white"/>
+        <defs>
+          <linearGradient id="sg2" x1="5" y1="3" x2="35" y2="35" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#3b3b6e"/><stop offset="1" stop-color="#1a1a2e"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <div class="text-left">
+        <h1 class="text-2xl font-bold text-midnight-700 leading-tight">Secure<span class="text-midnight-500">Share</span></h1>
+        <p class="text-xs text-slate-400 leading-none">by The Midnight Digita</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card -->
+  <div class="w-full max-w-xl bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden">
+
+    <!-- Top band -->
+    <div class="h-1.5 bg-gradient-to-r from-emerald-500 via-teal-500 to-midnight-500"></div>
+
+    <div class="p-8">
+
+      <!-- Success icon + title -->
+      <div class="flex flex-col items-center text-center mb-7">
+        <div class="w-14 h-14 rounded-full bg-emerald-50 flex items-center justify-center mb-4 ring-4 ring-emerald-100">
+          <svg class="w-7 h-7 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+          </svg>
+        </div>
+        <h2 class="text-xl font-bold text-slate-800 mb-1">Secret Link Created</h2>
+        <p class="text-sm text-slate-500">
+          Share the link below. It expires in <strong class="text-slate-700"><%= expiryLabel %></strong>
+          <% if (hasPassword) { %> and is password-protected<% } %>.
+        </p>
+      </div>
+
+      <!-- Secret URL -->
+      <div class="mb-4">
+        <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Your Secret Link</label>
+        <div class="flex gap-2">
+          <input
+            id="secretUrl"
+            type="text"
+            readonly
+            value="<%= secretUrl %>"
+            class="flex-1 min-w-0 px-3.5 py-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-700
+                   text-sm font-mono focus:outline-none truncate"
+          />
+          <button
+            id="copyBtn"
+            onclick="copyLink()"
+            class="shrink-0 inline-flex items-center gap-1.5 px-4 py-3 rounded-xl text-sm font-semibold
+                   bg-midnight-700 hover:bg-midnight-900 text-white transition-all active:scale-95"
+          >
+            <svg id="copyIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+            </svg>
+            <svg id="checkIcon" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+            </svg>
+            <span id="copyText">Copy</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Warning banner -->
+      <div class="flex items-start gap-3 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3.5 mb-6">
+        <svg class="w-5 h-5 text-amber-500 shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd"
+            d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+            clip-rule="evenodd"/>
+        </svg>
+        <div>
+          <p class="text-sm font-semibold text-amber-800">One-Time Access Only</p>
+          <p class="text-xs text-amber-700 mt-0.5">
+            This link can only be viewed <strong>once</strong>. After viewing, it is permanently and irreversibly deleted from our servers.
+          </p>
+        </div>
+      </div>
+
+      <!-- QR Code -->
+      <div class="border border-slate-100 rounded-2xl p-5 mb-6 text-center">
+        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-4">Scan QR Code</p>
+        <div id="qrcode" class="flex justify-center"></div>
+        <p class="text-xs text-slate-400 mt-3">Scan with any camera or QR reader app</p>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex flex-col sm:flex-row gap-3">
+        <a href="/"
+          class="flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl border border-slate-200
+                 text-slate-600 text-sm font-medium hover:bg-slate-50 hover:border-slate-300 transition-all">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+          </svg>
+          Create Another Secret
+        </a>
+      </div>
+    </div>
+
+    <!-- Bottom strip -->
+    <div class="px-8 pb-6">
+      <div class="flex flex-wrap items-center justify-center gap-4 text-xs text-slate-400 border-t border-slate-100 pt-5">
+        <span class="flex items-center gap-1">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+          </svg>
+          AES-256-GCM Encrypted
+        </span>
+        <span class="flex items-center gap-1">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          Expires in <%= expiryLabel %>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="mt-8 text-center">
+    <p class="text-xs text-slate-400">Your secrets are encrypted in your browser before being stored.</p>
+    <p class="text-xs text-slate-400">We never see your unencrypted data.</p>
+    <div class="flex flex-wrap items-center justify-center gap-4 mt-3 text-xs text-slate-400">
+      <span class="flex items-center gap-1">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+        </svg>
+        AES-256-GCM
+      </span>
+      <span class="flex items-center gap-1">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+        </svg>
+        Split-Key Architecture
+      </span>
+      <span class="flex items-center gap-1">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        Auto-Expiry
+      </span>
+      <span class="flex items-center gap-1">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+        </svg>
+        Open Source
+      </span>
+    </div>
+  </div>
+
+  <script>
+    // Generate QR Code
+    const secretUrl = '<%= secretUrl.replace(/'/g, "\\'") %>';
+    new QRCode(document.getElementById('qrcode'), {
+      text:          secretUrl,
+      width:         192,
+      height:        192,
+      colorDark:     '#1a1a2e',
+      colorLight:    '#ffffff',
+      correctLevel:  QRCode.CorrectLevel.H,
+    });
+
+    // Copy link
+    function copyLink() {
+      const url      = document.getElementById('secretUrl').value;
+      const btn      = document.getElementById('copyBtn');
+      const copyIcon = document.getElementById('copyIcon');
+      const checkIcon= document.getElementById('checkIcon');
+      const copyText = document.getElementById('copyText');
+
+      navigator.clipboard.writeText(url).then(() => {
+        copyIcon.classList.add('hidden');
+        checkIcon.classList.remove('hidden');
+        copyText.textContent = 'Copied!';
+        btn.classList.replace('bg-midnight-700', 'bg-emerald-600');
+        btn.classList.replace('hover:bg-midnight-900', 'hover:bg-emerald-700');
+
+        setTimeout(() => {
+          copyIcon.classList.remove('hidden');
+          checkIcon.classList.add('hidden');
+          copyText.textContent = 'Copy';
+          btn.classList.replace('bg-emerald-600', 'bg-midnight-700');
+          btn.classList.replace('hover:bg-emerald-700', 'hover:bg-midnight-900');
+        }, 2000);
+      }).catch(() => {
+        // Fallback for older browsers
+        const input = document.getElementById('secretUrl');
+        input.select();
+        document.execCommand('copy');
+        copyText.textContent = 'Copied!';
+        setTimeout(() => { copyText.textContent = 'Copy'; }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>
