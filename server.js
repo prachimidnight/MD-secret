@@ -173,6 +173,26 @@ const indexHtml = ({ error }) => `<!DOCTYPE html>
           </div>
         </div>
 
+        <div class="mb-5">
+          <label for="max_views" class="block text-sm font-medium text-slate-700 mb-1.5">Max Views</label>
+          <div class="relative">
+            <select id="max_views" name="max_views"
+              class="w-full appearance-none px-4 py-3 pr-10 rounded-xl border border-slate-200 text-slate-800 text-sm
+                     bg-white focus:outline-none focus:ring-2 focus:ring-midnight-500/30 focus:border-midnight-500 transition">
+              <option value="1" selected>1 Person (One-Time)</option>
+              <option value="2">2 People</option>
+              <option value="3">3 People</option>
+              <option value="5">5 People</option>
+              <option value="10">10 People</option>
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+              <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
         <div class="relative flex items-center my-6">
           <div class="flex-grow border-t border-slate-200"></div>
           <span class="mx-4 text-xs font-semibold text-slate-400 tracking-widest">OPTIONAL SECURITY</span>
@@ -241,7 +261,7 @@ const indexHtml = ({ error }) => `<!DOCTYPE html>
 </body>
 </html>`;
 
-const successHtml = ({ secretUrl, expiryLabel, hasPassword }) => `<!DOCTYPE html>
+const successHtml = ({ secretUrl, expiryLabel, hasPassword, maxViews }) => `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -277,6 +297,7 @@ const successHtml = ({ secretUrl, expiryLabel, hasPassword }) => `<!DOCTYPE html
         <h2 class="text-xl font-bold text-slate-800 mb-1">Secret Link Created</h2>
         <p class="text-sm text-slate-500">
           Share the link below. It expires in <strong class="text-slate-700">${e(expiryLabel)}</strong>${hasPassword ? ' and is password-protected' : ''}.
+          Up to <strong class="text-slate-700">${maxViews} ${maxViews === 1 ? 'person' : 'people'}</strong> can view it.
         </p>
       </div>
 
@@ -305,8 +326,8 @@ const successHtml = ({ secretUrl, expiryLabel, hasPassword }) => `<!DOCTYPE html
           <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
         </svg>
         <div>
-          <p class="text-sm font-semibold text-amber-800">One-Time Access Only</p>
-          <p class="text-xs text-amber-700 mt-0.5">This link can only be viewed <strong>once</strong>. After viewing, it is permanently and irreversibly deleted from our servers.</p>
+          <p class="text-sm font-semibold text-amber-800">${maxViews === 1 ? 'One-Time Access Only' : `Limited to ${maxViews} Views`}</p>
+          <p class="text-xs text-amber-700 mt-0.5">This link can only be viewed <strong>${maxViews === 1 ? 'once' : `${maxViews} times`}</strong>. After the last view, it is permanently and irreversibly deleted from our servers.</p>
         </div>
       </div>
 
@@ -386,7 +407,7 @@ const successHtml = ({ secretUrl, expiryLabel, hasPassword }) => `<!DOCTYPE html
 </body>
 </html>`;
 
-const viewHtml = ({ secret, needsPassword, id, error }) => `<!DOCTYPE html>
+const viewHtml = ({ secret, needsPassword, id, error, viewsRemaining = 0 }) => `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -493,6 +514,16 @@ const viewHtml = ({ secret, needsPassword, id, error }) => `<!DOCTYPE html>
                  text-sm font-mono leading-relaxed max-h-80 overflow-y-auto">${e(secret)}</pre>
       </div>
 
+      ${viewsRemaining > 0 ? `
+      <div class="flex items-start gap-3 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3.5 mb-6">
+        <svg class="w-5 h-5 text-amber-500 shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+        </svg>
+        <div>
+          <p class="text-sm font-semibold text-amber-800">${viewsRemaining} ${viewsRemaining === 1 ? 'View' : 'Views'} Remaining</p>
+          <p class="text-xs text-amber-700 mt-0.5">This secret can still be viewed <strong>${viewsRemaining} more ${viewsRemaining === 1 ? 'time' : 'times'}</strong> before it is permanently deleted.</p>
+        </div>
+      </div>` : `
       <div class="flex items-start gap-3 bg-red-50 border border-red-200 rounded-xl px-4 py-3.5 mb-6">
         <svg class="w-5 h-5 text-red-500 shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
           <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/>
@@ -501,7 +532,7 @@ const viewHtml = ({ secret, needsPassword, id, error }) => `<!DOCTYPE html>
           <p class="text-sm font-semibold text-red-800">Permanently Deleted</p>
           <p class="text-xs text-red-700 mt-0.5">This secret has been permanently deleted from our servers. Refreshing this page will not restore it.</p>
         </div>
-      </div>
+      </div>`}
 
       <a href="/" class="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl border border-slate-200
              text-slate-600 text-sm font-medium hover:bg-slate-50 hover:border-slate-300 transition-all">
@@ -614,7 +645,10 @@ const getDB = (env) => createClient({
 });
 
 const initDB = async (db) => {
-  await db.execute('CREATE TABLE IF NOT EXISTS secrets (id TEXT PRIMARY KEY, encrypted_secret TEXT NOT NULL, iv TEXT NOT NULL, encryption_key TEXT NOT NULL, auth_tag TEXT NOT NULL, password_hash TEXT, expires_at INTEGER NOT NULL, created_at INTEGER NOT NULL)');
+  await db.execute('CREATE TABLE IF NOT EXISTS secrets (id TEXT PRIMARY KEY, encrypted_secret TEXT NOT NULL, iv TEXT NOT NULL, encryption_key TEXT NOT NULL, auth_tag TEXT NOT NULL, password_hash TEXT, expires_at INTEGER NOT NULL, created_at INTEGER NOT NULL, max_views INTEGER NOT NULL DEFAULT 1, view_count INTEGER NOT NULL DEFAULT 0)');
+  // Migrate existing tables that lack the new columns
+  try { await db.execute('ALTER TABLE secrets ADD COLUMN max_views INTEGER NOT NULL DEFAULT 1'); } catch {}
+  try { await db.execute('ALTER TABLE secrets ADD COLUMN view_count INTEGER NOT NULL DEFAULT 0'); } catch {}
 };
 
 // ─── App ─────────────────────────────────────────────────────────────────────
@@ -623,7 +657,7 @@ const app = new Hono();
 app.get('/', (c) => c.html(indexHtml({ error: null })));
 
 app.post('/secret', async (c) => {
-  const { secret, expiration, password } = await c.req.parseBody();
+  const { secret, expiration, password, max_views } = await c.req.parseBody();
   if (!secret?.trim()) {
     return c.html(indexHtml({ error: 'Secret cannot be empty.' }), 400);
   }
@@ -642,16 +676,17 @@ app.post('/secret', async (c) => {
   const passwordHash = password?.trim() ? await bcrypt.hash(password.trim(), 10) : null;
   const EXPIRY_MAP = { '1h': 3600, '24h': 86400, '7d': 604800, '30d': 2592000 };
   const expiresAt = Math.floor(Date.now() / 1000) + (EXPIRY_MAP[expiration] || 86400);
+  const maxViews = Math.min(Math.max(parseInt(max_views) || 1, 1), 10);
 
   await db.execute({
-    sql: 'INSERT INTO secrets VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-    args: [id, encryptedHex, nodeIv.toString('hex'), nodeKey.toString('hex'), authTag, passwordHash, expiresAt, Math.floor(Date.now() / 1000)]
+    sql: 'INSERT INTO secrets (id, encrypted_secret, iv, encryption_key, auth_tag, password_hash, expires_at, created_at, max_views, view_count) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0)',
+    args: [id, encryptedHex, nodeIv.toString('hex'), nodeKey.toString('hex'), authTag, passwordHash, expiresAt, Math.floor(Date.now() / 1000), maxViews]
   });
 
   const url = new URL(c.req.url);
   const secretUrl = `${url.protocol}//${url.host}/secret/${id}`;
   const expiryLabel = { '1h': '1 hour', '24h': '24 hours', '7d': '7 days', '30d': '30 days' }[expiration] || '24 hours';
-  return c.html(successHtml({ secretUrl, expiryLabel, hasPassword: !!passwordHash }));
+  return c.html(successHtml({ secretUrl, expiryLabel, hasPassword: !!passwordHash, maxViews }));
 });
 
 app.get('/secret/:id', async (c) => {
@@ -676,8 +711,14 @@ app.get('/secret/:id', async (c) => {
   let decrypted = decipher.update(row.encrypted_secret, 'hex', 'utf8');
   decrypted += decipher.final('utf8');
 
-  await db.execute({ sql: 'DELETE FROM secrets WHERE id = ?', args: [id] });
-  return c.html(viewHtml({ secret: decrypted, needsPassword: false, id, error: null }));
+  const newViewCount = (row.view_count ?? 0) + 1;
+  const maxViews = row.max_views ?? 1;
+  if (newViewCount >= maxViews) {
+    await db.execute({ sql: 'DELETE FROM secrets WHERE id = ?', args: [id] });
+  } else {
+    await db.execute({ sql: 'UPDATE secrets SET view_count = ? WHERE id = ?', args: [newViewCount, id] });
+  }
+  return c.html(viewHtml({ secret: decrypted, needsPassword: false, id, error: null, viewsRemaining: maxViews - newViewCount }));
 });
 
 app.post('/secret/:id', async (c) => {
@@ -700,8 +741,14 @@ app.post('/secret/:id', async (c) => {
   let decrypted = decipher.update(row.encrypted_secret, 'hex', 'utf8');
   decrypted += decipher.final('utf8');
 
-  await db.execute({ sql: 'DELETE FROM secrets WHERE id = ?', args: [id] });
-  return c.html(viewHtml({ secret: decrypted, needsPassword: false, id, error: null }));
+  const newViewCount = (row.view_count ?? 0) + 1;
+  const maxViews = row.max_views ?? 1;
+  if (newViewCount >= maxViews) {
+    await db.execute({ sql: 'DELETE FROM secrets WHERE id = ?', args: [id] });
+  } else {
+    await db.execute({ sql: 'UPDATE secrets SET view_count = ? WHERE id = ?', args: [newViewCount, id] });
+  }
+  return c.html(viewHtml({ secret: decrypted, needsPassword: false, id, error: null, viewsRemaining: maxViews - newViewCount }));
 });
 
 // ─── Export for Cloudflare Workers ───────────────────────────────────────────
